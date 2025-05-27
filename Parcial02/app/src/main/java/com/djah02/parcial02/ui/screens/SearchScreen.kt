@@ -49,6 +49,7 @@ fun SearchScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .padding(padding)
+                .fillMaxSize()
                 .padding(16.dp)
         ) {
             OutlinedTextField(
@@ -69,7 +70,10 @@ fun SearchScreen(navController: NavController) {
                     columns = GridCells.Fixed(2),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.fillMaxSize().padding(top = 8.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
                 ) {
                     items(filtered) { producto ->
                         ProductCard(producto) {
@@ -77,7 +81,7 @@ fun SearchScreen(navController: NavController) {
                                 "producto",
                                 producto
                             )
-                            navController.navigate("menu")
+                            navController.navigate("details")
                         }
                     }
                 }

@@ -8,20 +8,25 @@ import com.djah02.parcial02.ui.screens.DetailScreen
 import com.djah02.parcial02.ui.screens.MenuScreen
 import com.djah02.parcial02.ui.screens.OrderScreen
 import com.djah02.parcial02.ui.screens.SearchScreen
+import com.djah02.parcial02.viewmodel.ProductoViewModel
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "menu") {
+fun AppNavigation(
+    navController: NavHostController,
+    productoViewModel: ProductoViewModel
+) {
+    NavHost(navController, startDestination = "menu") {
         composable("menu") {
-            MenuScreen(navController)
+            MenuScreen(navController, productoViewModel)
         }
-
         composable("search") {
             SearchScreen(navController)
         }
-
-        composable("details"){
-            DetailScreen(navController)
+        composable("details") {
+            DetailScreen(navController, productoViewModel)
+        }
+        composable("order") {
+            OrderScreen(navController, productoViewModel)
         }
     }
 }

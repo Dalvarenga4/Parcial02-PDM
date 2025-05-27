@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,9 +22,13 @@ import com.djah02.parcial02.data.DummyData
 import androidx.compose.material3.Text
 import com.djah02.parcial02.model.Producto
 import com.djah02.parcial02.ui.componets.ProductCard
+import com.djah02.parcial02.viewmodel.ProductoViewModel
 
 @Composable
-fun MenuScreen(navController: NavController) {
+fun MenuScreen(
+    navController: NavController,
+    productoViewModel: ProductoViewModel
+) {
     val productos = DummyData.getProducts()
 
     Column(
@@ -41,30 +46,38 @@ fun MenuScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        RestaurantGrid(productos, navController)
+        ProductoGrid(
+            productos = productos,
+            navController = navController,
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun RestaurantGrid(
+fun ProductoGrid(
     productos: List<Producto>,
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     val sortedProductos = productos.sortedBy { it.id }
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3), // 3 columnas fijas
+        columns = GridCells.Fixed(3),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
+            .fillMaxWidth()
             .padding(16.dp)
     ) {
         items(sortedProductos) { producto ->
             ProductCard(producto) {
-                navController.currentBackStackEntry?.savedStateHandle?.set("producto", producto)
-                navController.navigate("menu")
+                navController.currentBackStackEntry
+                    ?.savedStateHandle
+                    ?.set("producto", producto)
+
+                navController.navigate("details")
             }
         }
     }
